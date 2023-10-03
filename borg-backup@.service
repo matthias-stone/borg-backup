@@ -1,0 +1,17 @@
+[Unit]
+Description=Automated Borg Backup: %i
+
+[Service]
+Type=oneshot
+
+Environment=BORG_PASSCOMMAND='kwallet-query -r %i -f Borg kdewallet'
+EnvironmentFile=/home/matthias/.config/borg/envs/%i.env
+
+ExecStart=borg create \
+    --stats                            \
+    --verbose                          \
+    --one-file-system                  \
+    --progress                         \
+    --compression auto,zstd,3          \
+   $ARCHIVE \
+   $REPO_PATH
