@@ -7,6 +7,12 @@ Type=oneshot
 Environment=BORG_PASSCOMMAND='kwallet-query -r %i -f Borg kdewallet'
 EnvironmentFile=/home/matthias/.config/borg/envs/%i.env
 
+ExecStartPre=notify-send \
+            --app-name "Borg Backup - %i" \
+            --icon backup \
+            --urgency=low \
+            "Starting"
+
 ExecStart=borg create \
     --stats                            \
     --verbose                          \
@@ -15,3 +21,18 @@ ExecStart=borg create \
     --compression auto,zstd,3          \
    $ARCHIVE \
    $REPO_PATH
+
+ExecStopPost=bash -c ' \
+    [ $EXIT_STATUS -eq 0 ] && \
+        notify-send \
+            --app-name "Borg Backup - %i" \
+            --icon backup \
+            --urgency=low \
+            "Success" \
+        || \
+        notify-send \
+            --app-name "Borg Backup - %i" \
+            --icon backup \
+            --urgency=critical \
+            "Failed\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1)" \
+    '
