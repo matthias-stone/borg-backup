@@ -22,6 +22,8 @@ ExecStart=flock /home/matthias/.config/borg/scheduled.lock \
     --one-file-system                  \
     --progress                         \
     --compression auto,zstd,3          \
+    --exclude-caches                   \
+    --                   \
    $ARCHIVE \
    $REPO_PATH
 
