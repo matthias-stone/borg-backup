@@ -1,0 +1,13 @@
+# Content backups are allowed to become large
+restrict,command="borg serve --append-only --storage-quota 10T --restrict-to-repository /srv/backup/borg/matthias/Pictures --restrict-to-repository /srv/backup/borg/matthias/Videos" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1bcsKwIB/7Ynqe6ijb55zHIrSzOTSHf2cmzGFxXmEG berlin-matthias-borg-media
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgkUTos33Sy3njF/KbZAXC4Slf19mlr2s8UC0OdxBSr pazu-matthias-borg-media
+#restrict,command="borg serve --append-only --storage-quota 10T --restrict-to-repository /srv/backup/borg/matthias/Pictures --restrict-to-repository /srv/backup/borg/matthias/Videos" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgkUTos33Sy3njF/KbZAXC4Slf19mlr2s8UC0OdxBSr pazu-matthias-borg-media
+# Other backups are size limited, but there can be many of them. Need a different key
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-path /srv/backup/borg/matthias/berlin" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpjJQM/WboRJlQuC+vYJruq9tmklfoA/U/nO4tLcOWG berlin-matthias-borg
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-path /srv/backup/borg/matthias/pazu" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXnE9HjcHjBuzZ5r9TWlMPRgoY54us3w2ay/18XsPmf pazu-matthias-borg
+# System backups
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-repository /srv/backup/borg/system/berlin"
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-repository /srv/backup/borg/system/pazu"
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-repository /srv/backup/borg/system/mruniverse"
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-repository /srv/backup/borg/system/grumpytoast"
+restrict,command="borg serve --append-only --storage-quota 2T --restrict-to-repository /srv/backup/borg/system/calcifer"
