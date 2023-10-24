@@ -1,0 +1,11 @@
+[Unit]
+Description=Network status is ready for backups
+
+[Service]
+# Check that the connection unmetered to the internet
+ExecStart=bash -c 'while nmcli networking connectivity | grep -q full && ! (nmcli -t -f GENERAL.METERED dev show | grep -q GENERAL.METERED:yes); do sleep 15; done'
+Restart=always
+RestartSec=15s
+
+[Install]
+WantedBy=default.target
