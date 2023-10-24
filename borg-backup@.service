@@ -13,6 +13,7 @@ ExecStartPre=notify-send \
             --urgency=low \
             "Starting"
 
+SyslogIdentifier=borg
 ExecStart=flock /home/matthias/.config/borg/scheduled.lock \
     borg create \
     --stats                            \
