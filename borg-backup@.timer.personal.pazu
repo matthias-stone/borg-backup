@@ -1,0 +1,13 @@
+[Unit]
+Description=Borg Backup: %i
+After=backup-ready-network.service
+
+[Timer]
+# Start in the morning, if applicable
+OnCalendar=*-*-* 08:12:43
+# No more than twice a day
+RandomizedDelaySec=1h
+OnUnitInactiveSec=12h
+
+[Install]
+WantedBy=timers.target
