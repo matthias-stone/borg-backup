@@ -6,6 +6,7 @@ Type=oneshot
 
 Environment=BORG_PASSCOMMAND='kwallet-query -r %i -f Borg kdewallet'
 Environment=BORG_RSH='ssh -i /home/matthias/.config/borg/envs/borg'
+Environment=PATTERN_FILE='/dev/null'
 EnvironmentFile=/home/matthias/.config/borg/envs/%i.env
 
 ExecStartPre=notify-send \
@@ -23,6 +24,7 @@ ExecStart=flock /home/matthias/.config/borg/scheduled.lock \
     --progress                         \
     --compression auto,zstd,3          \
     --exclude-caches                   \
+    --patterns-from $PATTERN_FILE \
     --                   \
    $ARCHIVE \
    $REPO_PATH
