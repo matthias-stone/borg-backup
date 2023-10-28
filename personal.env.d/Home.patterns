@@ -1,0 +1,11 @@
+# Pattern file
+
+# Stored in other repos
+- /home/matthias/Pictures
+- /home/matthias/Videos
+- /home/matthias/devel/clients
+
+# Huge, changing files with every game update.
+- /home/matthias/.local/share/Steam/steamapps/common
+# Can be rebuilt
+- /home/matthias/.cache
