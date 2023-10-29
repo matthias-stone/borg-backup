@@ -4,7 +4,8 @@ HOST=${1:-$HOSTNAME}
 
 [ -n "$HOST" ] || exit 1
 
-ln -s ./personal.env.d ~/.config/borg/envs
+[ ! -e ~/.config/borg/envs ] && ln -s $PWD/personal.env.d ~/.config/borg/envs
+[ ! -e ~/.config/borg/keys ] && ln -s $PWD/personal.keys.d ~/.config/borg/keys
 cp backup-ready-network.service borg-backup@.service ~/.config/systemd/user/
 cp borg-backup@.timer.personal.$HOST ~/.config/systemd/user/borg-backup@.timer
 systemctl --user daemon-reload

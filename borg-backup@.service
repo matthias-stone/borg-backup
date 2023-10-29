@@ -5,7 +5,7 @@ Description=Automated Borg Backup: %i
 Type=oneshot
 
 Environment=BORG_PASSCOMMAND='kwallet-query -r %i -f Borg kdewallet'
-Environment=BORG_RSH='ssh -i /home/matthias/.config/borg/envs/borg'
+Environment=BORG_RSH='ssh -i /home/matthias/.config/borg/keys/borg'
 Environment=PATTERN_FILE='/dev/null'
 EnvironmentFile=/home/matthias/.config/borg/envs/%i.env
 
