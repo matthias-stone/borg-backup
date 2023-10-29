@@ -15,13 +15,15 @@ ExecStartPre=notify-send \
             --urgency=low \
             "Starting"
 
+# borg exits with 2 if a backup failed, 1 normally just means a file permission error
+SuccessExitStatus=1
+
 SyslogIdentifier=borg
 ExecStart=flock /home/matthias/.config/borg/scheduled.lock \
     borg create \
     --stats                            \
     --verbose                          \
     --one-file-system                  \
-    --progress                         \
     --compression auto,zstd,3          \
     --exclude-caches                   \
     --patterns-from $PATTERN_FILE \
@@ -36,12 +38,20 @@ ExecStopPost=bash -c ' \
             --icon backup \
             --urgency=low \
             "Success" \
-        || \
-        notify-send \
-            --app-name "Borg Backup - %i" \
-            --icon backup \
-            --urgency=critical \
-            "Failed\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1)" \
+        || ( \
+            [ $EXIT_STATUS -eq 1 ] && \
+                notify-send \
+                    --app-name "Borg Backup - %i" \
+                    --icon backup \
+                    --urgency=critical \
+                    "Warning\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1 --grep ^/)" \
+                || \
+                notify-send \
+                    --app-name "Borg Backup - %i" \
+                    --icon backup \
+                    --urgency=critical \
+                    "Failed\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1)" \
+        ) \
     '
 [Install]
 WantedBy=default.target
