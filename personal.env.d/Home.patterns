@@ -7,5 +7,7 @@
 
 # Huge, changing files with every game update.
 - /home/matthias/.local/share/Steam/steamapps/common
+- /home/matthias/.local/share/Steam/steamapps/shadercache
+- /home/matthias/.local/share/Steam/steamapps/compatdata
 # Can be rebuilt
 - /home/matthias/.cache
