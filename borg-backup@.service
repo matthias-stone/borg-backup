@@ -44,13 +44,13 @@ ExecStopPost=bash -c ' \
                     --app-name "Borg Backup - %i" \
                     --icon backup \
                     --urgency=critical \
-                    "Warning\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1 --grep ^/)" \
+                    "Warning\n$(journalctl _SYSTEMD_INVOCATION_ID=$(systemctl --user show --value -p InvocationID borg-backup@%i.service) --output cat --lines 1 --grep ^/)" \
                 || \
                 notify-send \
                     --app-name "Borg Backup - %i" \
                     --icon backup \
                     --urgency=critical \
-                    "Failed\n$(journalctl --user --unit borg-backup@%i.service --identifier borg --output cat --lines 1)" \
+                    "Failed\n$(journalctl _SYSTEMD_INVOCATION_ID=$(systemctl --user show --value -p InvocationID borg-backup@%i.service) --output cat --lines 1)" \
         ) \
     '
 [Install]
