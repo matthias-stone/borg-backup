@@ -1,0 +1,16 @@
+[Unit]
+# Otherwise the service stays active up to {CHECK_DELAY} after sleep causing jobs to mistake the network as available
+Description=Disable backup network status check during sleep
+Before=sleep.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+StandardOutput=syslog
+RemainAfterExit=yes
+ExecStart=systemctl --user stop backup-ready-network.service
+# --no-block because backup-ready-network.service spins during warm up until a valid network is live
+ExecStop=systemctl --user start backup-ready-network.service --no-block
+
+[Install]
+WantedBy=sleep.target
