@@ -1,0 +1,5 @@
+# System pattern file
+R /etc
+R /usr/local/bin
+R /usr/local/sbin
+R /root

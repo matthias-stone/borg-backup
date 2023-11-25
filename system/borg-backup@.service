@@ -1,0 +1,30 @@
+[Unit]
+Description=Borg System Backup: %i
+
+[Service]
+Type=oneshot
+
+ReadOnlyPaths=/
+StateDirectory=borg
+CacheDirectory=borg
+PrivateTmp=yes
+
+LoadCredentialEncrypted=passphrase-%i.encrypted:/etc/borg/passphrase-%i.encrypted
+LoadCredentialEncrypted=borg-%H.encrypted:/etc/borg/borg-%H.encrypted
+Environment=BORG_PASSCOMMAND='cat %d/passphrase-%i.encrypted'
+Environment=BORG_RSH='ssh -i %d/borg-%H.encrypted -F /etc/borg/ssh.config'
+Environment=BORG_CACHE_DIR=%C/borg
+Environment=BORG_CONFIG_DIR=%S/borg
+
+SuccessExitStatus=1
+
+SyslogIdentifier=borg
+
+ExecStart=borg create \
+    --stats                            \
+    --verbose                          \
+    --compression auto,zstd,3          \
+    --exclude-caches                   \
+    --patterns-from /etc/borg/%i.patterns \
+    --                   \
+   borg@mruniverse:/srv/backup/borg/machines/{hostname}/%i::{hostname}-%i-{now}

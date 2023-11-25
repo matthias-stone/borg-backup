@@ -1,0 +1,11 @@
+[Unit]
+Description=Borg System Backup: %i
+
+[Timer]
+# Start in the morning, if applicable
+OnCalendar=*-*-* 01:53:15
+RandomizedDelaySec=3h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
